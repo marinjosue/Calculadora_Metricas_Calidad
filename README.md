@@ -513,6 +513,10 @@ Comandos útiles:
 │ Herramienta     │ Qué mide                                 │
 ├─────────────────┼──────────────────────────────────────────┤
 │ Git Analytics   │ Historial de cambios, frecuencia        │
+│ Code Climate    │ Deuda técnica, mantenibilidad           │
+└─────────────────┴──────────────────────────────────────────┘
+```
+
 ---
 
 ## 🚀 Características Técnicas Avanzadas
@@ -830,12 +834,16 @@ Abre un **Issue** o contribuye con un **Pull Request**
 ┌─────────────────┬──────────────────────────────────────────┐
 │ Herramienta     │ Qué mide                                 │
 ├─────────────────┼──────────────────────────────────────────┤
-│ Sentry          │ Errores en producción, crash reports    │
+│ Sentry ⭐       │ Errores en producción, crash reports    │
 │ New Relic       │ Monitoreo APM, uptime                    │
 │ DataDog         │ Logs, métricas, trazas                   │
 │ Prometheus      │ Métricas de sistema                      │
 │ Grafana         │ Dashboards de disponibilidad             │
 └─────────────────┴──────────────────────────────────────────┘
+
+Herramientas recomendadas:
+  $ sentry-cli --help           # Configuración Sentry
+  $ newrelic install            # Instalación New Relic
 ```
 
 ### Para Eficiencia
@@ -847,15 +855,19 @@ Abre un **Issue** o contribuye con un **Pull Request**
 │ JProfiler       │ Profiling de Java                        │
 │ cProfile        │ Profiling de Python                      │
 │ Apache JMeter   │ Load testing, throughput                 │
-│ k6              │ Testing de rendimiento moderno           │
+│ k6 ⭐           │ Testing de rendimiento moderno           │
 └─────────────────┴──────────────────────────────────────────┘
+
+Comandos útiles:
+  $ python -m cProfile script.py  # Profiling Python
+  $ k6 run test.js                # Load testing
 ```
 
 ---
 
-## 🎨 Capturas y Diagramas
+## 🎨 Flujo de Trabajo de la Aplicación
 
-### Flujo de Trabajo General
+### Diagrama de Flujo Completo
 
 ```
 Usuario                  Aplicación React              SonarQube
@@ -863,7 +875,7 @@ Usuario                  Aplicación React              SonarQube
    ├──── Analiza código ──────────────────────────────────>│
    │                           │                           │
    │<──── Genera .pb ───────────────────────────────────── │
-   │     files                 │                           │
+   │     archivos              │                           │
    │                           │                           │
    ├─ Clic botón flotante ───>│                           │
    │                           │                           │
@@ -969,95 +981,13 @@ metricas-calidad-software/
     "react-scripts": "5.0.1"      // CRA Tooling
   }
 }
+```
 
 ## 📝 Scripts Disponibles
 
-- `npm start` - Inicia el servidor de desarrollo
-- `npm run build` - Crea la versión de producción
-- `npm test` - Ejecuta las pruebas
-- `npm run eject` - Expone la configuración (irreversible)
-
-## 🎯 Nuevas Características
-
-### Guía de Métricas Interactiva
-- **Ejemplos prácticos** para cada categoría de métricas
-- **Instrucciones detalladas** de cómo obtener cada valor
-- **Herramientas recomendadas** para análisis de código
-
-### Ejemplos Rápidos
-- Carga automática de datos de ejemplo
-- Tres niveles por categoría: Pequeño, Mediano, Grande
-- Ideal para demos y aprendizaje
-
-### 🎯 Importador de SonarQube (PLUS)
-- **Sube reportes de SonarQube** (JSON o CSV)
-- **Extracción automática** de métricas
-- **Autocompletado** de formularios
-- Soporta: LOC, comentarios, bugs, code smells
-
-### Obtención de Valores Reales
-
-#### Para Métricas Básicas:
-- **LOC (Líneas de Código)**: 
-  - Herramientas: `cloc`, `SonarQube`, `tokei`
-  - Comando: `cloc src/` o `git ls-files | xargs wc -l`
-  - **SonarQube**: Métrica `ncloc`
-- **Comentarios**: 
-  - Análisis estático del código
-  - **SonarQube**: Métrica `comment_lines`
-- **Defectos**: 
-  - GitHub Issues, Jira, sistemas de seguimiento
-  - **SonarQube**: Métrica `bugs` o `violations`
-- **Tiempo**: Toggl, Clockify, registros del equipo
-
-#### 🎯 Usar SonarQube (Recomendado):
 ```bash
-# Analizar proyecto con SonarQube
-sonar-scanner
-
-# Exportar métricas
-1. Ir a tu proyecto en SonarQube
-2. Navegar a "Measures" → "Export"
-3. Descargar JSON o CSV
-4. Subir en la aplicación
-
-# Archivos de ejemplo incluidos:
-- public/ejemplo-sonar.json
-- public/ejemplo-sonar.csv
+npm start       # Inicia servidor de desarrollo
+npm run build   # Crea versión de producción
+npm test        # Ejecuta las pruebas
+npm run eject   # Expone configuración (irreversible)
 ```
-
-#### Para Mantenibilidad:
-- **Git Analytics**: `git log --since="1 month ago" --oneline | wc -l`
-- **Tiempo de Cambios**: Herramientas como Code Climate
-- **Historial**: GitLab/GitHub Insights
-
-#### Para Confiabilidad:
-- **Monitoreo**: New Relic, DataDog, Sentry
-- **Logs**: AWS CloudWatch, ELK Stack
-- **Uptime**: Pingdom, UptimeRobot, StatusCake
-
-#### Para Eficiencia:
-- **Profiling**: Chrome DevTools, Python cProfile
-- **Memoria**: Task Manager, htop, Grafana
-- **Performance**: JMeter, Apache Bench
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-1. Haz un Fork del proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/NuevaMetrica`)
-3. Commit tus cambios (`git commit -m 'Agregar nueva métrica'`)
-4. Push a la rama (`git push origin feature/NuevaMetrica`)
-5. Abre un Pull Request
-
-## 📄 Licencia
-
-Este proyecto es de código abierto y está disponible para uso educativo.
-
-## 👨‍💻 Autor
-
-Desarrollado para el curso de Calidad de Software
-
----
-
-**¡Buena suerte con tus cálculos de métricas!** 🎓
