@@ -821,10 +821,3 @@ Abre un **Issue** o contribuye con un **Pull Request**
 **⭐ Si te fue útil, deja una estrella en el repositorio**
 
 </div>
-
----
-
-**Última actualización:** Diciembre 2025  
-**Versión:** 2.0.0 - Con integración SonarQube completa
-  $ git diff --stat HEAD~10
-```
