@@ -274,42 +274,6 @@ const ImportadorSonar = ({ onDatosExtraidos, categoria }) => {
           <span className="text-sm">{mensaje}</span>
         </div>
       )}
-
-      {/* Instrucciones */}
-      <div className="mt-4 text-xs text-gray-600 bg-white p-3 rounded border border-gray-200">
-        <p className="font-semibold mb-1">📋 Opciones para obtener métricas:</p>
-        
-        <div className="mb-2">
-          <strong>Opción 1 - Archivos del Scanner:</strong>
-          <ol className="list-decimal ml-4 space-y-1 mt-1">
-            <li>Ejecutar: <code className="bg-gray-100 px-1">sonar-scanner</code></li>
-            <li>Buscar carpeta: <code className="bg-gray-100 px-1">.scannerwork/scanner-report/</code></li>
-            <li>Copiar archivos a <code className="bg-gray-100 px-1">public/sonar-reports/</code></li>
-            <li>Subir cualquier archivo aquí</li>
-          </ol>
-        </div>
-
-        <div className="mb-2">
-          <strong>Opción 2 - API de SonarQube:</strong>
-          <code className="block bg-gray-100 p-1 text-xs mt-1 rounded">
-            curl "http://localhost:9000/api/measures/component?component=proyecto&metricKeys=ncloc,bugs,comment_lines" &gt; report.json
-          </code>
-        </div>
-
-        <div>
-          <strong>Opción 3 - Formato Manual:</strong>
-          <p className="mt-1">Crea un archivo .txt con formato:</p>
-          <code className="block bg-gray-100 p-1 text-xs mt-1 rounded">
-            ncloc: 2500<br/>
-            comment_lines: 400<br/>
-            bugs: 8
-          </code>
-        </div>
-
-        <p className="mt-2 text-gray-500 border-t pt-2">
-          <strong>Formatos aceptados:</strong> JSON, CSV, TXT, LOG, MD
-        </p>
-      </div>
     </div>
   );
 };

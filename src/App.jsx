@@ -9,7 +9,8 @@ import Resultados from './components/Resultados';
 import ProcesadorSonar from './components/ProcesadorSonar';
 import Dashboard from './components/Dashboard';
 import AnalizadorProyecto from './components/AnalizadorProyecto';
-import { Calculator, Wrench, Shield, Zap, Home, FileArchive, BarChart3, FolderOpen, Sun, Moon } from 'lucide-react';
+import Graficas from './components/Graficas';
+import { Calculator, Wrench, Shield, Zap, Home, FileArchive, BarChart3, FolderOpen, Sun, Moon, TrendingUp } from 'lucide-react';
 
 // Contexto global para métricas de SonarQube
 export const MetricasContext = createContext();
@@ -67,6 +68,8 @@ function App() {
         return <Dashboard />;
       case 'analizador':
         return <AnalizadorProyecto onMetricasExtraidas={handleMetricasExtraidas} />;
+      case 'graficas':
+        return <Graficas />;
       default:
         return <Inicio />;
     }
@@ -213,6 +216,20 @@ function App() {
             >
               <BarChart3 size={18} />
               Dashboard
+            </button>
+            
+            <button
+              onClick={() => setCategoria('graficas')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all text-sm ${
+                categoria === 'graficas'
+                  ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-md'
+                  : modoOscuro 
+                    ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <TrendingUp size={18} />
+              Gráficas
             </button>
           </nav>
         </div>
