@@ -57,7 +57,7 @@ function App() {
   };
 
   const renderComponente = () => {
-    switch(categoria) {
+    switch (categoria) {
       case 'inicio':
         return <Inicio />;
       case 'basicas':
@@ -85,18 +85,16 @@ function App() {
 
   return (
     <MetricasContext.Provider value={{ metricasGlobales, setMetricasGlobales, resultadosCalculados }}>
-      <div className={`min-h-screen transition-colors duration-300 ${
-        modoOscuro 
-          ? 'bg-gradient-to-br from-gray-900 to-gray-800' 
+      <div className={`min-h-screen transition-colors duration-300 ${modoOscuro
+          ? 'bg-gradient-to-br from-gray-900 to-gray-800'
           : 'bg-gradient-to-br from-gray-50 to-gray-100'
-      }`}>
-        
-        {/* Sidebar Lateral Fijo */}
-        <aside className={`fixed left-0 top-0 w-64 h-screen border-r shadow-lg transition-colors duration-300 z-40 ${
-          modoOscuro 
-            ? 'bg-gray-800 border-gray-700' 
-            : 'bg-white border-gray-200'
         }`}>
+
+        {/* Sidebar Lateral Fijo */}
+        <aside className={`fixed left-0 top-0 w-64 h-screen border-r shadow-lg transition-colors duration-300 z-40 ${modoOscuro
+            ? 'bg-gray-800 border-gray-700'
+            : 'bg-white border-gray-200'
+          }`}>
           {/* Logo y Título */}
           <div className={`p-4 border-b ${modoOscuro ? 'border-gray-700' : 'border-gray-200'}`}>
             <div className="flex items-center gap-3 mb-2">
@@ -112,15 +110,14 @@ function App() {
                 </p>
               </div>
             </div>
-            
+
             {/* Botón de Modo Oscuro */}
             <button
               onClick={() => setModoOscuro(!modoOscuro)}
-              className={`w-full p-2 rounded-lg transition-all duration-300 ${
-                modoOscuro
+              className={`w-full p-2 rounded-lg transition-all duration-300 ${modoOscuro
                   ? 'bg-yellow-500 hover:bg-yellow-400 text-gray-900'
                   : 'bg-gray-800 hover:bg-gray-700 text-yellow-300'
-              }`}
+                }`}
               title={modoOscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
             >
               <div className="flex items-center justify-center gap-2">
@@ -138,55 +135,52 @@ function App() {
             <div className="space-y-1">
               <button
                 onClick={() => setCategoria('inicio')}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${
-                  categoria === 'inicio'
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${categoria === 'inicio'
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md'
-                    : modoOscuro 
+                    : modoOscuro
                       ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 <Home size={16} />
                 Inicio
               </button>
-              
+
               <button
                 onClick={() => setCategoria('analizador')}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${
-                  categoria === 'analizador'
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${categoria === 'analizador'
                     ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-md'
-                    : modoOscuro 
+                    : modoOscuro
                       ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 <FolderOpen size={16} />
                 Analizador
               </button>
-              
+
               <button
                 onClick={() => setCategoria('dashboard')}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${
-                  categoria === 'dashboard'
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${categoria === 'dashboard'
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md'
-                    : modoOscuro 
+                    : modoOscuro
                       ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 <BarChart3 size={16} />
                 Dashboard
               </button>
-              
+
               <button
                 onClick={() => setCategoria('graficas')}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${
-                  categoria === 'graficas'
+                data-categoria="graficas"
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all text-sm ${categoria === 'graficas'
                     ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-md'
-                    : modoOscuro 
+                    : modoOscuro
                       ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 <TrendingUp size={16} />
                 Gráficas
@@ -197,16 +191,14 @@ function App() {
             <div className={`h-px my-3 ${modoOscuro ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
 
             {/* ISO 25010 - Menú Expandible */}
-            <div className={`rounded-lg border ${
-              modoOscuro ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-            }`}>
+            <div className={`rounded-lg border ${modoOscuro ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              }`}>
               <button
                 onClick={() => setMenuISO25010Expandido(!menuISO25010Expandido)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all text-sm font-semibold ${
-                  modoOscuro 
-                    ? 'text-blue-300 hover:bg-gray-700' 
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all text-sm font-semibold ${modoOscuro
+                    ? 'text-blue-300 hover:bg-gray-700'
                     : 'text-blue-700 hover:bg-blue-50'
-                }`}
+                  }`}
               >
                 <span className="flex items-center gap-2">
                   <Calculator size={16} />
@@ -214,60 +206,56 @@ function App() {
                 </span>
                 {menuISO25010Expandido ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
               </button>
-              
+
               {menuISO25010Expandido && (
                 <div className="px-2 pb-2 space-y-1">
                   <button
                     onClick={() => setCategoria('basicas')}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${
-                      categoria === 'basicas'
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${categoria === 'basicas'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
-                        : modoOscuro 
+                        : modoOscuro
                           ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     <Calculator size={14} />
                     Métricas Básicas
                   </button>
-                  
+
                   <button
                     onClick={() => setCategoria('mantenibilidad')}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${
-                      categoria === 'mantenibilidad'
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${categoria === 'mantenibilidad'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
-                        : modoOscuro 
+                        : modoOscuro
                           ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     <Wrench size={14} />
                     Mantenibilidad
                   </button>
-                  
+
                   <button
                     onClick={() => setCategoria('confiabilidad')}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${
-                      categoria === 'confiabilidad'
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${categoria === 'confiabilidad'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
-                        : modoOscuro 
+                        : modoOscuro
                           ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     <Shield size={14} />
                     Confiabilidad
                   </button>
-                  
+
                   <button
                     onClick={() => setCategoria('eficiencia')}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${
-                      categoria === 'eficiencia'
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${categoria === 'eficiencia'
                         ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm'
-                        : modoOscuro 
+                        : modoOscuro
                           ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     <Zap size={14} />
                     Eficiencia
@@ -277,16 +265,14 @@ function App() {
             </div>
 
             {/* ISO 25022 - Menú Expandible */}
-            <div className={`rounded-lg border ${
-              modoOscuro ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-            }`}>
+            <div className={`rounded-lg border ${modoOscuro ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              }`}>
               <button
                 onClick={() => setMenuISO25022Expandido(!menuISO25022Expandido)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all text-sm font-semibold ${
-                  modoOscuro 
-                    ? 'text-cyan-300 hover:bg-gray-700' 
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-all text-sm font-semibold ${modoOscuro
+                    ? 'text-cyan-300 hover:bg-gray-700'
                     : 'text-cyan-700 hover:bg-cyan-50'
-                }`}
+                  }`}
               >
                 <span className="flex items-center gap-2">
                   <Users size={16} />
@@ -294,32 +280,30 @@ function App() {
                 </span>
                 {menuISO25022Expandido ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
               </button>
-              
+
               {menuISO25022Expandido && (
                 <div className="px-2 pb-2 space-y-1">
                   <button
                     onClick={() => setCategoria('inicioISO25022')}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${
-                      categoria === 'inicioISO25022'
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${categoria === 'inicioISO25022'
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
-                        : modoOscuro 
+                        : modoOscuro
                           ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     <Home size={14} />
                     Fórmulas y Conceptos
                   </button>
-                  
+
                   <button
                     onClick={() => setCategoria('calidadEnUso')}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${
-                      categoria === 'calidadEnUso'
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-all text-xs ${categoria === 'calidadEnUso'
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
-                        : modoOscuro 
+                        : modoOscuro
                           ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     <Users size={14} />
                     Calcular Métricas
@@ -333,11 +317,10 @@ function App() {
         {/* Contenido Principal con margen izquierdo */}
         <div className="ml-64 flex flex-col min-h-screen">
           {/* Header Compacto */}
-          <header className={`border-b shadow-sm transition-colors duration-300 ${
-            modoOscuro 
-              ? 'bg-gray-800 border-gray-700' 
+          <header className={`border-b shadow-sm transition-colors duration-300 sticky top-0 z-30 ${modoOscuro
+              ? 'bg-gray-800 border-gray-700'
               : 'bg-white border-gray-200'
-          }`}>
+            }`}>
             <div className="px-6 py-4">
               <h2 className={`text-2xl font-bold ${modoOscuro ? 'text-white' : 'text-gray-800'}`}>
                 Sistema de Evaluación de Métricas de Calidad
@@ -348,7 +331,7 @@ function App() {
             </div>
           </header>
 
-          {/* Botón Flotante para Procesador SonarQube */}
+          {/* Botón Flotante para Procesador SonarQube */}}
           <button
             onClick={() => setMostrarProcesador(true)}
             className="fixed bottom-8 right-8 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-full shadow-2xl hover:shadow-purple-500/50 hover:scale-110 transition-all z-50 flex items-center gap-2 group"
@@ -381,10 +364,10 @@ function App() {
                     </svg>
                   </button>
                 </div>
-                
+
                 <div className="p-6">
-                  <ProcesadorSonar 
-                    onMetricasExtraidas={handleMetricasExtraidas} 
+                  <ProcesadorSonar
+                    onMetricasExtraidas={handleMetricasExtraidas}
                     onCerrar={cerrarProcesador}
                   />
                 </div>
@@ -406,15 +389,13 @@ function App() {
               </div>
             )}
           </main>
-          
-          <footer className={`border-t mt-auto transition-colors duration-300 ${
-            modoOscuro 
-              ? 'bg-gray-800 border-gray-700' 
+
+          <footer className={`border-t mt-auto transition-colors duration-300 ${modoOscuro
+              ? 'bg-gray-800 border-gray-700'
               : 'bg-white border-gray-200'
-          }`}>
-            <div className={`px-6 py-4 text-center text-sm ${
-              modoOscuro ? 'text-gray-300' : 'text-gray-600'
             }`}>
+            <div className={`px-6 py-4 text-center text-sm ${modoOscuro ? 'text-gray-300' : 'text-gray-600'
+              }`}>
               <p>Sistema de Métricas de Calidad de Software | ESPE 2025</p>
             </div>
           </footer>

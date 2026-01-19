@@ -15,7 +15,11 @@ import {
   AlertTriangle,
   ArrowUp,
   ArrowDown,
-  Minus
+  Minus,
+  Shield,
+  ChevronDown,
+  ChevronUp,
+  EyeOff
 } from 'lucide-react';
 import { MetricasContext } from '../App';
 
@@ -26,6 +30,13 @@ const Graficas = () => {
   const [vistaActual, setVistaActual] = useState('graficas'); // 'graficas' o 'historial'
   const [mostrarModalResultados, setMostrarModalResultados] = useState(false);
   const [categoriaModalSeleccionada, setCategoriaModalSeleccionada] = useState(null);
+  
+  // Estados para controlar la visibilidad de cada gráfica
+  const [mostrarBasicas, setMostrarBasicas] = useState(true);
+  const [mostrarMantenibilidad, setMostrarMantenibilidad] = useState(true);
+  const [mostrarConfiabilidad, setMostrarConfiabilidad] = useState(true);
+  const [mostrarEficiencia, setMostrarEficiencia] = useState(true);
+  const [mostrarCalidadEnUso, setMostrarCalidadEnUso] = useState(true);
 
   // Cargar historial desde localStorage al montar
   useEffect(() => {
@@ -208,6 +219,80 @@ const Graficas = () => {
         icono: Lightbulb,
         texto: 'Usar profiling para identificar cuellos de botella'
       });
+    } else if (nombre.includes('efectividad')) {
+      // Recomendaciones para Efectividad (ISO 25022)
+      if (texto.includes('bajo') || texto.includes('aceptable')) {
+        recomendaciones.push({
+          tipo: 'critico',
+          icono: AlertTriangle,
+          texto: 'Revisa UX/UI: Los usuarios no completan las tareas exitosamente'
+        });
+        recomendaciones.push({
+          tipo: 'mejora',
+          icono: TrendingUp,
+          texto: 'Realiza pruebas de usabilidad y simplifica flujos de trabajo'
+        });
+      } else if (texto.includes('bueno')) {
+        recomendaciones.push({
+          tipo: 'info',
+          icono: AlertCircle,
+          texto: 'Identifica las tareas con menor tasa de éxito y mejóralas'
+        });
+      }
+    } else if (nombre.includes('nps') || nombre.includes('satisfacción')) {
+      // Recomendaciones para NPS/Satisfacción
+      if (texto.includes('crítico')) {
+        recomendaciones.push({
+          tipo: 'critico',
+          icono: AlertTriangle,
+          texto: 'NPS negativo: Urgente mejorar satisfacción del usuario'
+        });
+        recomendaciones.push({
+          tipo: 'mejora',
+          icono: TrendingUp,
+          texto: 'Recopila feedback activo y atiende quejas principales'
+        });
+      } else if (texto.includes('aceptable')) {
+        recomendaciones.push({
+          tipo: 'mejora',
+          icono: AlertCircle,
+          texto: 'Mejora la experiencia del usuario para aumentar promotores'
+        });
+      }
+    } else if (nombre.includes('riesgo')) {
+      // Recomendaciones para Libertad de Riesgo
+      if (texto.includes('alto')) {
+        recomendaciones.push({
+          tipo: 'critico',
+          icono: AlertTriangle,
+          texto: 'Alto riesgo económico: Implementa controles de calidad urgentes'
+        });
+        recomendaciones.push({
+          tipo: 'mejora',
+          icono: Shield,
+          texto: 'Aumenta validaciones y pruebas de regresión'
+        });
+      } else if (texto.includes('moderado')) {
+        recomendaciones.push({
+          tipo: 'mejora',
+          icono: AlertCircle,
+          texto: 'Fortalece pruebas automatizadas y manejo de errores'
+        });
+      }
+    } else if (nombre.includes('cobertura')) {
+      // Recomendaciones para Cobertura de Contexto
+      if (texto.includes('bajo') || texto.includes('aceptable')) {
+        recomendaciones.push({
+          tipo: 'mejora',
+          icono: AlertCircle,
+          texto: 'Amplía casos de prueba para cubrir más contextos de uso'
+        });
+        recomendaciones.push({
+          tipo: 'info',
+          icono: TrendingUp,
+          texto: 'Prueba en diferentes dispositivos, redes y condiciones'
+        });
+      }
     } else {
       // Recomendación genérica
       recomendaciones.push({
@@ -228,7 +313,8 @@ const Graficas = () => {
       basicas: [],
       mantenibilidad: [],
       confiabilidad: [],
-      eficiencia: []
+      eficiencia: [],
+      calidadEnUso: []  // Nueva categoría para ISO 25022
     };
 
     // Procesar resultados - puede ser array de métricas o estructura plana
@@ -253,6 +339,8 @@ const Graficas = () => {
             categorias.confiabilidad.push(metricaObj);
           } else if (nombreLower.includes('eficiencia') || nombreLower.includes('memoria') || nombreLower.includes('temporal')) {
             categorias.eficiencia.push(metricaObj);
+          } else if (nombreLower.includes('efectividad') || nombreLower.includes('nps') || nombreLower.includes('riesgo') || nombreLower.includes('cobertura') || nombreLower.includes('satisfacción')) {
+            categorias.calidadEnUso.push(metricaObj);
           }
         });
       } else if (value && typeof value === 'object' && value.valor !== undefined) {
@@ -274,6 +362,8 @@ const Graficas = () => {
           categorias.confiabilidad.push(metricaObj);
         } else if (keyLower.includes('eficiencia') || keyLower.includes('memoria') || keyLower.includes('temporal')) {
           categorias.eficiencia.push(metricaObj);
+        } else if (keyLower.includes('efectividad') || keyLower.includes('nps') || keyLower.includes('riesgo') || keyLower.includes('cobertura') || keyLower.includes('satisfacción')) {
+          categorias.calidadEnUso.push(metricaObj);
         }
       }
     });
@@ -826,8 +916,27 @@ const Graficas = () => {
   // Vista de gráficas
   const VistaGraficas = () => (
     <div className="space-y-6">
-      {/* Botón guardar en historial */}
-      <div className="flex justify-end">
+      {/* Botones de control */}
+      <div className="flex justify-between items-center gap-3">
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => {
+              const todasMostradas = mostrarBasicas && mostrarMantenibilidad && mostrarConfiabilidad && mostrarEficiencia && mostrarCalidadEnUso;
+              setMostrarBasicas(!todasMostradas);
+              setMostrarMantenibilidad(!todasMostradas);
+              setMostrarConfiabilidad(!todasMostradas);
+              setMostrarEficiencia(!todasMostradas);
+              setMostrarCalidadEnUso(!todasMostradas);
+            }}
+            className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-500 dark:hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors duration-300 text-sm"
+          >
+            {(mostrarBasicas && mostrarMantenibilidad && mostrarConfiabilidad && mostrarEficiencia && mostrarCalidadEnUso) ? (
+              <><EyeOff className="w-4 h-4" /> Ocultar Todas</>
+            ) : (
+              <><Eye className="w-4 h-4" /> Mostrar Todas</>
+            )}
+          </button>
+        </div>
         <button
           onClick={guardarEnHistorial}
           className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors duration-300 shadow-lg"
@@ -840,35 +949,113 @@ const Graficas = () => {
       {/* Gráficos de Líneas - Tendencia */}
       <div className="grid lg:grid-cols-1 gap-6 mb-6">
         {datos?.basicas && datos.basicas.length > 0 && (
-          <GraficaLineas 
-            titulo="Tendencia - Métricas Básicas" 
-            metricas={datos.basicas}
-            color="bg-blue-600"
-          />
+          <div className="space-y-3">
+            <button
+              onClick={() => setMostrarBasicas(!mostrarBasicas)}
+              className="w-full bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-lg font-semibold flex items-center justify-between transition-colors duration-300 border-2 border-blue-200 dark:border-blue-800"
+            >
+              <span className="flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Tendencia - Métricas Básicas
+              </span>
+              {mostrarBasicas ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </button>
+            {mostrarBasicas && (
+              <GraficaLineas 
+                titulo="Tendencia - Métricas Básicas" 
+                metricas={datos.basicas}
+                color="bg-blue-600"
+              />
+            )}
+          </div>
         )}
         
         {datos?.mantenibilidad && datos.mantenibilidad.length > 0 && (
-          <GraficaLineas 
-            titulo="Tendencia - Mantenibilidad" 
-            metricas={datos.mantenibilidad}
-            color="bg-green-600"
-          />
+          <div className="space-y-3">
+            <button
+              onClick={() => setMostrarMantenibilidad(!mostrarMantenibilidad)}
+              className="w-full bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 text-green-700 dark:text-green-300 px-4 py-2 rounded-lg font-semibold flex items-center justify-between transition-colors duration-300 border-2 border-green-200 dark:border-green-800"
+            >
+              <span className="flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Tendencia - Mantenibilidad
+              </span>
+              {mostrarMantenibilidad ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </button>
+            {mostrarMantenibilidad && (
+              <GraficaLineas 
+                titulo="Tendencia - Mantenibilidad" 
+                metricas={datos.mantenibilidad}
+                color="bg-green-600"
+              />
+            )}
+          </div>
         )}
         
         {datos?.confiabilidad && datos.confiabilidad.length > 0 && (
-          <GraficaLineas 
-            titulo="Tendencia - Confiabilidad" 
-            metricas={datos.confiabilidad}
-            color="bg-red-600"
-          />
+          <div className="space-y-3">
+            <button
+              onClick={() => setMostrarConfiabilidad(!mostrarConfiabilidad)}
+              className="w-full bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 text-red-700 dark:text-red-300 px-4 py-2 rounded-lg font-semibold flex items-center justify-between transition-colors duration-300 border-2 border-red-200 dark:border-red-800"
+            >
+              <span className="flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Tendencia - Confiabilidad
+              </span>
+              {mostrarConfiabilidad ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </button>
+            {mostrarConfiabilidad && (
+              <GraficaLineas 
+                titulo="Tendencia - Confiabilidad" 
+                metricas={datos.confiabilidad}
+                color="bg-red-600"
+              />
+            )}
+          </div>
         )}
         
         {datos?.eficiencia && datos.eficiencia.length > 0 && (
-          <GraficaLineas 
-            titulo="Tendencia - Eficiencia" 
-            metricas={datos.eficiencia}
-            color="bg-yellow-600"
-          />
+          <div className="space-y-3">
+            <button
+              onClick={() => setMostrarEficiencia(!mostrarEficiencia)}
+              className="w-full bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 px-4 py-2 rounded-lg font-semibold flex items-center justify-between transition-colors duration-300 border-2 border-yellow-200 dark:border-yellow-800"
+            >
+              <span className="flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Tendencia - Eficiencia
+              </span>
+              {mostrarEficiencia ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </button>
+            {mostrarEficiencia && (
+              <GraficaLineas 
+                titulo="Tendencia - Eficiencia" 
+                metricas={datos.eficiencia}
+                color="bg-yellow-600"
+              />
+            )}
+          </div>
+        )}
+        
+        {datos?.calidadEnUso && datos.calidadEnUso.length > 0 && (
+          <div className="space-y-3">
+            <button
+              onClick={() => setMostrarCalidadEnUso(!mostrarCalidadEnUso)}
+              className="w-full bg-cyan-50 dark:bg-cyan-900/20 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 px-4 py-2 rounded-lg font-semibold flex items-center justify-between transition-colors duration-300 border-2 border-cyan-200 dark:border-cyan-800"
+            >
+              <span className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                Tendencia - Calidad en Uso (ISO 25022)
+              </span>
+              {mostrarCalidadEnUso ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </button>
+            {mostrarCalidadEnUso && (
+              <GraficaLineas 
+                titulo="Tendencia - Calidad en Uso (ISO 25022)" 
+                metricas={datos.calidadEnUso}
+                color="bg-cyan-600"
+              />
+            )}
+          </div>
         )}
       </div>
 

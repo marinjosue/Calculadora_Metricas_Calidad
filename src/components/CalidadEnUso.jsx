@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { CheckCircle, TrendingUp, AlertCircle, Users, Shield, BarChart3 } from 'lucide-react';
+import { CheckCircle, TrendingUp, AlertCircle, Users, Shield, BarChart3, LineChart } from 'lucide-react';
 import { MetricasContext } from '../App';
-import EjemplosRapidos from './EjemplosRapidos';
 
 const CalidadEnUso = ({ onCalculate }) => {
   const { metricasGlobales } = useContext(MetricasContext);
@@ -9,6 +8,7 @@ const CalidadEnUso = ({ onCalculate }) => {
     const guardado = localStorage.getItem('modoOscuro');
     return guardado ? JSON.parse(guardado) : false;
   });
+  const [mostrarBotonGraficas, setMostrarBotonGraficas] = useState(false);
 
   const [formData, setFormData] = useState({
     // Efectividad
@@ -69,7 +69,7 @@ const CalidadEnUso = ({ onCalculate }) => {
           unidad: '%',
           descripcion: 'Grado en que usuarios completan tareas correctamente',
           formula: '(Tareas exitosas / Total de tareas) × 100',
-          recomendacion: efectividad >= 95 ? 'Excelente' : efectividad >= 80 ? 'Bueno' : efectividad >= 60 ? 'Aceptable' : 'Bajo'
+          interpretacion: efectividad >= 95 ? 'Excelente' : efectividad >= 80 ? 'Bueno' : efectividad >= 60 ? 'Aceptable' : 'Bajo'
         },
         {
           nombre: 'Eficiencia Relativa',
@@ -77,7 +77,7 @@ const CalidadEnUso = ({ onCalculate }) => {
           unidad: '%',
           descripcion: 'Relación tiempo real vs benchmark',
           formula: '(Tiempo benchmark / Tiempo real) × 100',
-          recomendacion: eficienciaRelativa >= 100 ? 'Mejor al benchmark' : eficienciaRelativa >= 80 ? 'Bueno' : 'Requiere optimización'
+          interpretacion: eficienciaRelativa >= 100 ? 'Mejor al benchmark' : eficienciaRelativa >= 80 ? 'Bueno' : 'Requiere optimización'
         },
         {
           nombre: 'NPS (Net Promoter Score)',
@@ -85,7 +85,7 @@ const CalidadEnUso = ({ onCalculate }) => {
           unidad: 'puntos',
           descripcion: 'Satisfacción del usuario',
           formula: '% Promotores - % Detractores',
-          recomendacion: nps >= 50 ? 'Excelente' : nps >= 20 ? 'Bueno' : nps >= 0 ? 'Aceptable' : 'Crítico',
+          interpretacion: nps >= 50 ? 'Excelente' : nps >= 20 ? 'Bueno' : nps >= 0 ? 'Aceptable' : 'Crítico',
           detalles: {
             pctPromotores: pctPromotores.toFixed(2),
             pctDetractores: pctDetractores.toFixed(2)
@@ -97,7 +97,7 @@ const CalidadEnUso = ({ onCalculate }) => {
           unidad: '%',
           descripcion: 'Errores con impacto respecto al total',
           formula: '(Errores con impacto / Total transacciones) × 100',
-          recomendacion: riesgoEconomico <= 1 ? 'Bajo' : riesgoEconomico <= 5 ? 'Moderado' : 'Alto'
+          interpretacion: riesgoEconomico <= 1 ? 'Bajo' : riesgoEconomico <= 5 ? 'Moderado' : 'Alto'
         },
         {
           nombre: 'Cobertura de Contexto',
@@ -105,12 +105,16 @@ const CalidadEnUso = ({ onCalculate }) => {
           unidad: '%',
           descripcion: 'Porcentaje de contextos cubiertos exitosamente',
           formula: '(Contextos exitosos / Contextos evaluados) × 100',
-          recomendacion: cobertura >= 90 ? 'Excelente' : cobertura >= 75 ? 'Bueno' : cobertura >= 60 ? 'Aceptable' : 'Bajo'
+          interpretacion: cobertura >= 90 ? 'Excelente' : cobertura >= 75 ? 'Bueno' : cobertura >= 60 ? 'Aceptable' : 'Bajo'
         }
       ]
     };
 
     onCalculate(resultados);
+    setMostrarBotonGraficas(true);
+    
+    // Scroll al top para que el usuario vea el mensaje
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const ejemplosRapidos = [
@@ -182,6 +186,40 @@ const CalidadEnUso = ({ onCalculate }) => {
           </div>
         </div>
       </div>
+
+      {/* Banner de éxito con botón a Gráficas */}
+      {mostrarBotonGraficas && (
+        <div className={`rounded-xl p-6 border-l-4 border-green-500 ${
+          modoOscuro ? 'bg-green-900/20 border-green-700' : 'bg-green-50'
+        }`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+              <div>
+                <h3 className="text-lg font-bold text-green-800 dark:text-green-300">
+                  ¡Métricas Calculadas Exitosamente!
+                </h3>
+                <p className={`text-sm ${modoOscuro ? 'text-green-200' : 'text-green-700'}`}>
+                  Tus resultados están listos. Visualízalos en gráficas para un mejor análisis.
+                </p>
+              </div>
+            </div>
+            <a
+              href="#graficas"
+              onClick={(e) => {
+                e.preventDefault();
+                // Cambiar a la pestaña de gráficas
+                const botonGraficas = document.querySelector('[data-categoria="graficas"]');
+                if (botonGraficas) botonGraficas.click();
+              }}
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center gap-2 whitespace-nowrap"
+            >
+              <LineChart className="w-5 h-5" />
+              Ver en Gráficas
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Formulario */}
       <form onSubmit={handleSubmit} className={`rounded-xl border p-6 shadow-sm ${
@@ -490,10 +528,26 @@ const CalidadEnUso = ({ onCalculate }) => {
       </form>
 
       {/* Ejemplos Rápidos */}
-      <EjemplosRapidos 
-        ejemplos={ejemplosRapidos} 
-        onCargarEjemplo={(datos) => setFormData(datos)}
-      />
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-4 mb-4 border-2 border-amber-200">
+        <div className="flex items-center mb-3">
+          <CheckCircle className="mr-2 text-amber-600" size={20} />
+          <h4 className="font-semibold text-gray-800">Ejemplos Rápidos</h4>
+        </div>
+        <p className="text-sm text-gray-600 mb-3">
+          Haz clic en un ejemplo para cargar valores automáticamente:
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {ejemplosRapidos.map((ejemplo, idx) => (
+            <button
+              key={idx}
+              onClick={() => setFormData(ejemplo.datos)}
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-sm font-medium transition duration-200 shadow-sm"
+            >
+              {ejemplo.nombre}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Información ISO 25022 */}
       <div className={`rounded-xl border p-6 shadow-sm ${
