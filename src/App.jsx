@@ -331,7 +331,7 @@ function App() {
             </div>
           </header>
 
-          {/* Botón Flotante para Procesador SonarQube */}}
+          {/* Botón Flotante para Procesador SonarQube */}
           <button
             onClick={() => setMostrarProcesador(true)}
             className="fixed bottom-8 right-8 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-full shadow-2xl hover:shadow-purple-500/50 hover:scale-110 transition-all z-50 flex items-center gap-2 group"
